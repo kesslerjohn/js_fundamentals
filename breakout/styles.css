@@ -5,11 +5,20 @@
     border: solid black 1px;
 }
 
-.block{
+.block {
     position: absolute;
     width: 100px;
     height: 20px;
     background-color: blue;
+    left: 50px;
+    bottom: 50px;
+}
+
+.user {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background-color: purple;
     left: 50px;
     bottom: 50px;
 }
