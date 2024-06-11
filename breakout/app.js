@@ -14,8 +14,15 @@ class Block {
 // all blocks
 const blocks = [
     new Block(10, 270),
-    new Block(210, 270),
-    new Block(270, 10)
+    new Block(120, 270),
+    new Block(230, 270),
+    new Block(340, 270),
+    new Block(450, 270),
+    new Block(10, 240),
+    new Block(120, 240),
+    new Block(230, 240),
+    new Block(340, 240),
+    new Block(450, 240),
 ]
 
 // draw all blocks
