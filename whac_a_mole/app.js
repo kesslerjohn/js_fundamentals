@@ -12,5 +12,6 @@ function randomSquare() {
         square.classList.remove('mole')
     })
 
-    let randomPosition = squares[Math.floor(Math.random() * 9)]
+    let randomSquare = squares[Math.floor(Math.random() * 9)]
+    randomSquare.classList.add('mole')
 }
