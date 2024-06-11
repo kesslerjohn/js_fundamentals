@@ -49,12 +49,8 @@ const cardArray = [
     }
 ]
 
-const gridDisplay = document.querySelector('#grid')
-let score = 0;
-const cardsChosen = []
-const cardsChosenIds = []
-
 function createBoard() {
+    cardArray.sort(() => 0.5 - Math.random())
     for (let i = 0; i < cardArray.length; i++) {
         const card = document.createElement('img')
         card.setAttribute('src', 'images/blank.png')
@@ -78,7 +74,7 @@ function checkMatch() {
         })
         cardsChosen.length = 0
         cardsChosenIds.length = 0
-        if (score === 6){
+        if (score === (cardArray.length/2)){
             setTimeout(resetBoard, 1000)
         }
     } else {
@@ -106,10 +102,13 @@ function resetBoard() {
     while (gridDisplay.firstChild){
         gridDisplay.removeChild(gridDisplay.lastChild)
     }
-    cardArray.sort(() => 0.5 - Math.random())
     createBoard()
 }
 
-cardArray.sort(() => 0.5 - Math.random())
+const gridDisplay = document.querySelector('#grid')
+let score = 0;
+const cardsChosen = []
+const cardsChosenIds = []
 const score_display = document.getElementById('result')
+
 createBoard()
