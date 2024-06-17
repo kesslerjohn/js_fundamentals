@@ -2,10 +2,12 @@ const grid = document.querySelector('.grid')
 const blockWidth = 100
 const blockHeight = 20
 const boardWidth = 560
+const boardHeight = 300
 const userStart = [230, 10]
 const ballStart = [270, 40]
 let currentPosition = userStart
 let ballPosition = ballStart
+let timerId
 
 class Block {
     constructor(xAxis, yAxis) {
@@ -46,18 +48,23 @@ function drawUser() {
     user.style.bottom = currentPosition[1] + 'px'
 }
 
+function drawBall() {
+    ball.style.left = ballPosition[0] + 'px'
+    ball.style.bottom = ballPosition[1] + 'px'
+}
+
 // move user
 function moveUser(e){
     switch (e.key) {
         case 'ArrowLeft': 
             if (currentPosition[0] > 0) {
-                currentPosition[0] -= 10
+                currentPosition[0] -= 20
                 drawUser()
             }
             break;
         case 'ArrowRight':
             if (currentPosition[0]+blockWidth < boardWidth) {
-                currentPosition[0] += 10
+                currentPosition[0] += 20
             drawUser()
             }
             break;
@@ -77,6 +84,27 @@ document.addEventListener('keydown', moveUser)
 
 const ball = document.createElement('div')
 ball.classList.add('ball')
-ball.style.left = ballPosition[0] + 'px'
-ball.style.bottom = ballPosition[1] + 'px'
+drawBall()
 grid.appendChild(ball)
+
+let xStep = 3
+let yStep = 3
+// move ball
+
+function checkCollisions() {
+    if ((ballPosition[0] <= 0) || (ballPosition[0] >= boardWidth - 20)) {
+        xStep = -1*xStep
+    }
+    if ((ballPosition[1] <= 0) || (ballPosition[1] >= boardHeight - 20)) {
+        yStep = -1*yStep
+    }
+}
+
+function moveBall() {
+    checkCollisions()
+    ballPosition[0] += xStep
+    ballPosition[1] += yStep
+    drawBall()
+}
+
+timerId = setInterval(moveBall, 20)
