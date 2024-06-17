@@ -58,13 +58,13 @@ function moveUser(e){
     switch (e.key) {
         case 'ArrowLeft': 
             if (currentPosition[0] > 0) {
-                currentPosition[0] -= 20
+                currentPosition[0] -= 10
                 drawUser()
             }
             break;
         case 'ArrowRight':
             if (currentPosition[0]+blockWidth < boardWidth) {
-                currentPosition[0] += 20
+                currentPosition[0] += 10
             drawUser()
             }
             break;
@@ -87,16 +87,38 @@ ball.classList.add('ball')
 drawBall()
 grid.appendChild(ball)
 
-let xStep = 3
-let yStep = 3
+let xStep = 2
+let yStep = 2
 // move ball
 
+function hitBoxY(target) {
+    // you can hit the bottom of a block
+    // if your top is equal to its bottom
+    let hitBottom = (ballPosition[1] + 20 == target.bottomLeft[1])
+    let hitTop = (ballPosition[1] == target.topLeft[1])
+    return (hitBottom || hitTop)
+}
+
 function checkCollisions() {
+    // board collisions
     if ((ballPosition[0] <= 0) || (ballPosition[0] >= boardWidth - 20)) {
         xStep = -1*xStep
     }
     if ((ballPosition[1] <= 0) || (ballPosition[1] >= boardHeight - 20)) {
         yStep = -1*yStep
+    }
+
+    // block collisions
+    for (const block of blocks) {
+        if (hitBoxY(block)) {
+            yStep = -1*yStep
+        }
+    }
+    // user collision
+    if (ballPosition[0] + 10 > currentPosition[0] && ballPosition[0] + 10 < currentPosition[0] + blockWidth) {
+        if (ballPosition[1] == currentPosition[1] + blockHeight) {
+            yStep = -1*yStep
+        }
     }
 }
 
