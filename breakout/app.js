@@ -3,7 +3,9 @@ const blockWidth = 100
 const blockHeight = 20
 const boardWidth = 560
 const userStart = [230, 10]
+const ballStart = [270, 40]
 let currentPosition = userStart
+let ballPosition = ballStart
 
 class Block {
     constructor(xAxis, yAxis) {
@@ -31,7 +33,6 @@ const blocks = [
 // draw all blocks
 function addBlocks() {
     for (let i = 0; i < blocks.length; i++){
-        console.log(blocks[i])
         const block = document.createElement('div')
         block.classList.add('block')
         block.style.left = blocks[i].bottomLeft[0] + 'px'
@@ -39,14 +40,6 @@ function addBlocks() {
         grid.appendChild(block)
     }
 }
-
-addBlocks()
-
-// create user
-const user = document.createElement('div')
-user.classList.add('user')
-drawUser()
-grid.appendChild(user)
 
 function drawUser() {
     user.style.left = currentPosition[0] + 'px'
@@ -71,4 +64,19 @@ function moveUser(e){
     }
 }
 
+const user = document.createElement('div')
+user.classList.add('user')
+drawUser()
+grid.appendChild(user)
+
+addBlocks()
+
 document.addEventListener('keydown', moveUser)
+
+// add ball
+
+const ball = document.createElement('div')
+ball.classList.add('ball')
+ball.style.left = ballPosition[0] + 'px'
+ball.style.bottom = ballPosition[1] + 'px'
+grid.appendChild(ball)
