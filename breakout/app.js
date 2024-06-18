@@ -8,6 +8,7 @@ const ballStart = [270, 40]
 let currentPosition = userStart
 let ballPosition = ballStart
 let timerId
+const startButton = document.querySelector('.button')
 
 const scoreDisplay = document.querySelector('#score')
 let score = 0
@@ -156,4 +157,4 @@ function moveBall() {
     drawBall()
 }
 
-timerId = setInterval(moveBall, 20)
+startButton.addEventListener('mousedown', () => {timerId = setInterval(moveBall, 20)})
