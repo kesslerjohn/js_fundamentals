@@ -9,6 +9,9 @@ let currentPosition = userStart
 let ballPosition = ballStart
 let timerId
 
+const scoreDisplay = document.querySelector('#score')
+let score = 0
+
 class Block {
     constructor(xAxis, yAxis) {
         this.bottomLeft = [xAxis, yAxis]
@@ -99,24 +102,48 @@ function hitBoxY(target) {
     return (hitBottom || hitTop)
 }
 
+function hitBoxX(target) {
+    let hitLeft = (ballPosition[0] + 10 >= target.bottomLeft[0])
+    let hitRight = (ballPosition[0] + 10 <= target.bottomRight[0])
+    return (hitLeft && hitRight)
+}
+
 function checkCollisions() {
     // board collisions
+
+    if (ballPosition[1] <= 0) {
+        document.removeEventListener('keydown', moveUser)
+        clearInterval(timerId)
+        alert("Game over! Your score: " + score)
+    }
+
     if ((ballPosition[0] <= 0) || (ballPosition[0] >= boardWidth - 20)) {
         xStep = -1*xStep
     }
-    if ((ballPosition[1] <= 0) || (ballPosition[1] >= boardHeight - 20)) {
+    if (ballPosition[1] >= boardHeight - 20) {
         yStep = -1*yStep
     }
 
     // block collisions
-    for (const block of blocks) {
-        if (hitBoxY(block)) {
+    const allBlocks = Array.from(document.querySelectorAll('.block'))
+    for (let i = 0; i < blocks.length; i++) {
+        const block = blocks[i]
+        if (hitBoxX(block) && hitBoxY(block)) {
+            allBlocks[i].classList.remove('block')
+            blocks.splice(i, 1)
             yStep = -1*yStep
+            score++
+            scoreDisplay.innerHTML = "Score: " + score.toString()
+        }
+        if (blocks.length == 0) {
+            document.removeEventListener('keydown', moveUser)
+            clearInterval(timerId)
+            alert("You win! Final score: " + score)
         }
     }
     // user collision
-    if (ballPosition[0] + 10 > currentPosition[0] && ballPosition[0] + 10 < currentPosition[0] + blockWidth) {
-        if (ballPosition[1] == currentPosition[1] + blockHeight) {
+    if (ballPosition[0] + 10 > currentPosition[0] && ballPosition[0] + 10 < (currentPosition[0] + blockWidth)) {
+        if (ballPosition[1] <= currentPosition[1] + blockHeight) {
             yStep = -1*yStep
         }
     }
